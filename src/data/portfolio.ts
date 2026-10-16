@@ -45,7 +45,7 @@ export const cadProjects: CadProject[] = [
     title: "Layered Electronics Enclosure",
     dateRange: "December 2025",
     description:
-      "A stacked enclosure I designed in Fusion 360 around a battery pack, a control board and silicone heating pads. The model is shown exploded so every layer is visible.",
+      "A stacked enclosure I designed in Fusion 360 around a battery pack, a control board and silicone heating pads. The model has 62 separate parts, and the animation lifts the layers and the electronics apart.",
     tags: ["Fusion 360", "Assembly Design", "3D Printing"],
     glbFileUrl: `${BASE}glb/assembly.glb`,
   },
@@ -53,7 +53,7 @@ export const cadProjects: CadProject[] = [
     id: "storcase",
     title: "Storage Case",
     dateRange: "2025",
-    description: "A large storage case with a drawer front, designed in Fusion 360.",
+    description: "A two-drawer storage cabinet I designed in Fusion 360, with 66 separate parts including the rails and hardware. The animation pulls the drawers out.",
     tags: ["Fusion 360", "Product Design"],
     glbFileUrl: `${BASE}glb/storcase.glb`,
   },

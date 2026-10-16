@@ -42,8 +42,10 @@ export default function ModelViewerWrapper({ src, alt, className = "" }: Props) 
         src={src}
         alt={alt}
         camera-controls
+        autoplay
         auto-rotate
-        rotation-per-second="18deg"
+        rotation-per-second="10deg"
+        environment-image="neutral"
         interaction-prompt="none"
         shadow-intensity="0.6"
         exposure="1.1"
@@ -57,7 +59,7 @@ export default function ModelViewerWrapper({ src, alt, className = "" }: Props) 
         <div className="absolute inset-0 flex items-center justify-center text-xs text-muted">Model failed to load</div>
       )}
       {status === "ready" && (
-        <span className="pointer-events-none absolute bottom-3 left-4 text-xs text-muted">Drag to rotate, scroll to zoom</span>
+        <span className="pointer-events-none absolute bottom-3 left-4 text-xs text-muted">Drag to rotate, scroll to zoom. Plays an exploded view.</span>
       )}
     </div>
   );
