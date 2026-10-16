@@ -7,14 +7,9 @@ const BASE = import.meta.env.BASE_URL;
 
 export const personalInfo = {
   name: "Rushil Patil",
-  firstName: "Rushil",
-  lastName: "Patil",
   heroLine: "Mechanical Engineering Student and Builder",
-  affiliations: ["UIUC Grainger Engineering", "Business Minor", "Dean's List"],
-  tagline: "I replace slow manual steps with tools that work.",
-  intro:
-    "Mechanical Engineering student at the University of Illinois with a business minor. I build automation tools, AI agents and 3D-printed designs.",
-  bio: "I am a Mechanical Engineering student at the University of Illinois Urbana-Champaign with a business minor. I like finding the slow, manual step in a process and replacing it with a tool that works. This summer I built seven automation tools at NETZSCH Pumps and Systems, and on my own time I build AI agents, test them in simulation, and design parts for 3D printing.",
+  affiliations: ["UIUC Mechanical Engineering", "Business Minor", "NETZSCH Intern"],
+  bio: "I am a Mechanical Engineering student at the University of Illinois Urbana-Champaign with a business minor. I like finding the slow, manual step in a process and replacing it with a tool that works. This summer I built seven automation tools at NETZSCH Pumps and Systems. On my own time I build AI agents, test them in simulation, and design parts for 3D printing.",
   education: {
     school: "University of Illinois at Urbana-Champaign, Grainger College of Engineering",
     degree: "B.S. Mechanical Engineering, Business Minor",
@@ -23,12 +18,6 @@ export const personalInfo = {
   },
   currentFocus: "Process automation, AI agents, and CAD for 3D printing.",
   organizations: ["Business Council", "Illinois Business Consulting", "PRIME Mergers and Acquisitions"],
-  stats: [
-    { value: "7", label: "automation tools built at NETZSCH" },
-    { value: "40+", label: "hours a month saved" },
-    { value: "14,700+", label: "catalog parts matched by one tool" },
-    { value: "3.78", label: "GPA at Illinois Grainger" },
-  ],
   skills: {
     "CAD and Simulation": ["SolidWorks", "AutoCAD", "Fusion 360", "MATLAB", "3D Printing"],
     Software: ["Python", "Java", "Power Automate", "Power BI", "SAP"],
@@ -54,24 +43,21 @@ export const cadProjects: CadProject[] = [
   {
     id: "incense-holder",
     title: "Incense Stick Holder",
-    dateRange: "Aug 2026",
+    dateRange: "August 2026",
     description:
-      "A flowing 3D-printed holder designed in CAD and exported for printing. This is the first revision of the design.",
+      "The first version of a curved incense holder, designed in CAD and exported for 3D printing.",
     tags: ["CAD", "3D Printing"],
     glbFileUrl: `${BASE}glb/incense-holder.glb`,
   },
   {
     id: "keychain-tool",
     title: "Keychain Tool",
-    dateRange: "Apr 2026",
-    description:
-      "A compact keychain tool refined over eight revisions, printed each time to test fit and strength.",
+    dateRange: "April 2026",
+    description: "Version 8 of a keychain tool I designed in Fusion and 3D printed.",
     tags: ["Fusion 360", "3D Printing"],
     glbFileUrl: `${BASE}glb/keychain-tool.glb`,
   },
 ];
-
-export type FlowStep = { title: string; detail: string };
 
 export type SoftwareProject = {
   id: string;
@@ -79,74 +65,52 @@ export type SoftwareProject = {
   kind: string;
   description: string;
   tags: string[];
+  steps: string[];
   note?: string;
-  steps: FlowStep[];
-  loop?: string;
 };
 
-// Flow diagrams describe how each system is structured. They contain no results.
+// The three smaller cards beside the lead project.
 export const softwareProjects: SoftwareProject[] = [
   {
     id: "spare-parts",
     title: "Spare-Parts Pricing Tool",
-    kind: "Internship project at NETZSCH",
+    kind: "Internship at NETZSCH",
     description:
-      "Matches a new part against more than 14,700 catalog entries and recommends a list price. AI handles the matching and fixed math sets the price, so the number is always explainable.",
+      "Matches a new part to one of 14,700+ catalog entries and recommends a list price. AI does the matching and fixed formulas set the price, so every number can be explained.",
     tags: ["Excel", "Power Automate", "AI Builder"],
-    note: "Built for an employer, so the code is not public.",
-    steps: [
-      { title: "New part", detail: "Description and specs entered in Excel" },
-      { title: "AI match", detail: "Finds the closest of 14,700+ catalog entries" },
-      { title: "Price math", detail: "Fixed formulas, no AI in the number" },
-      { title: "Review", detail: "A person approves the list price" },
-    ],
+    steps: ["Match", "Compare", "Price", "Review"],
+    note: "Built for an employer, not public",
   },
   {
     id: "ib-voice-quiz",
     title: "IB Voice Quiz",
     kind: "Web app",
     description:
-      "Voice-based interview practice with 976 questions. You answer out loud and an AI model grades the response.",
+      "A voice quiz for banking interview prep. It asks one of 976 questions, listens to my answer, and has an AI model grade it.",
     tags: ["PWA", "Speech", "Gemini"],
-    steps: [
-      { title: "Question", detail: "One of 976 interview questions" },
-      { title: "Speak", detail: "Answer out loud in the browser" },
-      { title: "Transcribe", detail: "Speech converted to text" },
-      { title: "Grade", detail: "Gemini scores and gives feedback" },
-    ],
-    loop: "Next question",
+    steps: ["Ask", "Listen", "Transcribe", "Grade"],
   },
   {
     id: "stock-agent",
     title: "Stock Research Agent",
     kind: "AI agent",
     description:
-      "Runs daily, weekly and monthly research on a small real portfolio and emails a summary. Hard rules check every idea before it is shown.",
+      "Researches a small real portfolio every day, week and month, then emails me a summary. A rule check rejects anything outside my limits before I see it.",
     tags: ["Python", "Scheduling", "Claude"],
-    steps: [
-      { title: "Schedule", detail: "Daily, weekly and monthly runs" },
-      { title: "Research", detail: "Headless Claude reviews the market" },
-      { title: "Rule check", detail: "A validator rejects anything off-limits" },
-      { title: "Email", detail: "Summary sent with queued retries" },
-    ],
-    loop: "Journal of past trades feeds the next run",
+    steps: ["Schedule", "Research", "Check", "Email"],
   },
 ];
 
 export const monteCarlo = {
   title: "Monte Carlo Trading Simulator",
-  kind: "Simulation and testing",
+  kind: "Simulation",
   description:
-    "Before the stock agent touches real money, it is tested across many simulated market years. A known edge is planted in a synthetic market. One run keeps what it learns from year to year and a control run starts fresh every year, so the gap between them shows whether learning works. Every run is audited for rule violations.",
+    "Before the stock agent touches real money, I test it in simulated markets. I plant a known edge, then compare one run that keeps what it learns against a control that starts fresh every year. Every run is audited for rule violations.",
   tags: ["Python", "Monte Carlo", "Bootstrap"],
-  caveat:
-    "Dollar levels are synthetic, and 30 simulated years is a small sample, so this shows the method working rather than proving an edge.",
-  reading: [
-    "The learning run found the planted edge: its weight on that theme rose from 1.0 to 1.5 at year 13 and held.",
-    "It had a milder bad year (worst decile -8.0 percent against -17.3 percent) and a better median year (+14.4 against +7.2).",
-    "It gave up the biggest winners (best year +52 percent against +74 percent), and the average gap was small (+13.1 against +12.1).",
-    "The first 12 years are identical because nothing had been learned yet.",
-  ],
+  steps: ["Simulate", "Learn", "Audit", "Compare"],
+  subtitle:
+    "Thirty simulated years, a learning run against a control. The agent found the planted edge and cut its worst years.",
+  note: "Thirty years is a small sample, and the dollar levels are synthetic. The learning run gave up the biggest winners, and the gap in the average year is small.",
 };
 
 export type Experience = {

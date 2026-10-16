@@ -61,7 +61,7 @@ export default function FractalBackground() {
         for (let j = i + 1; j < parts.length; j++) {
           const d = Math.hypot(parts[i].x - parts[j].x, parts[i].y - parts[j].y);
           if (d < 170) {
-            ctx.strokeStyle = `rgba(244,246,252,${0.34 * (1 - d / 170)})`;
+            ctx.strokeStyle = `rgba(244,246,252,${0.2 * (1 - d / 170)})`;
             ctx.lineWidth = 1;
             ctx.beginPath();
             ctx.moveTo(parts[i].x, parts[i].y);
@@ -70,7 +70,7 @@ export default function FractalBackground() {
           }
         }
       }
-      ctx.fillStyle = "rgba(244,246,252,0.75)";
+      ctx.fillStyle = "rgba(244,246,252,0.5)";
       for (const p of parts) {
         ctx.beginPath();
         ctx.arc(p.x, p.y, 1.6, 0, Math.PI * 2);
