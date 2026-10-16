@@ -41,24 +41,23 @@ export type CadProject = {
 // Only the two strongest designs are shown.
 export const cadProjects: CadProject[] = [
   {
-    id: "incense-holder",
-    title: "Incense Stick Holder",
-    dateRange: "August 2026",
+    id: "enclosure",
+    title: "Layered Electronics Enclosure",
+    dateRange: "December 2025",
     description:
-      "The first version of a curved incense holder, designed in CAD and exported for 3D printing.",
-    tags: ["CAD", "3D Printing"],
-    glbFileUrl: `${BASE}glb/incense-holder.glb`,
+      "A stacked enclosure I designed in Fusion 360 around a battery pack, a control board and silicone heating pads. The model is shown exploded so every layer is visible.",
+    tags: ["Fusion 360", "Assembly Design", "3D Printing"],
+    glbFileUrl: `${BASE}glb/assembly.glb`,
   },
   {
-    id: "keychain-tool",
-    title: "Keychain Tool",
-    dateRange: "April 2026",
-    description: "Version 8 of a keychain tool I designed in Fusion and 3D printed.",
-    tags: ["Fusion 360", "3D Printing"],
-    glbFileUrl: `${BASE}glb/keychain-tool.glb`,
+    id: "storcase",
+    title: "Storage Case",
+    dateRange: "2025",
+    description: "A large storage case with a drawer front, designed in Fusion 360.",
+    tags: ["Fusion 360", "Product Design"],
+    glbFileUrl: `${BASE}glb/storcase.glb`,
   },
 ];
-
 export type SoftwareProject = {
   id: string;
   title: string;
@@ -108,9 +107,7 @@ export const monteCarlo = {
     "Before the stock agent touches real money, I test it in simulated markets. I plant a known edge, then compare one run that keeps what it learns against a control that starts fresh every year. Every run is audited for rule violations.",
   tags: ["Python", "Monte Carlo", "Bootstrap"],
   steps: ["Simulate", "Learn", "Audit", "Compare"],
-  subtitle:
-    "Thirty simulated years, a learning run against a control. The agent found the planted edge and cut its worst years.",
-  note: "Thirty years is a small sample, and the dollar levels are synthetic. The learning run gave up the biggest winners, and the gap in the average year is small.",
+  note: "Dollar levels are synthetic and thirty years is a small sample. The learning run cut the worst years but gave up the biggest winners.",
 };
 
 export type Experience = {

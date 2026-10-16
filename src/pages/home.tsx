@@ -62,10 +62,10 @@ function Hero() {
         </ScrollFade>
         <ScrollFade delay={0.3} className="mt-4 flex flex-wrap justify-center gap-4">
           <a
-            href="#cad"
+            href="#software"
             onClick={(e) => {
               e.preventDefault();
-              document.getElementById("cad")?.scrollIntoView({ behavior: "smooth" });
+              document.getElementById("software")?.scrollIntoView({ behavior: "smooth" });
             }}
             className="bg-fg px-6 py-3 text-sm text-bg hover:opacity-90"
           >
@@ -80,10 +80,98 @@ function Hero() {
   );
 }
 
+function Experience() {
+  return (
+    <Section id="experience" className="bg-lbg text-lfg">
+      <Head light title="Experience" sub="Internships, case work and consulting." />
+      <ol className="mt-14 divide-y divide-lline border-y border-lline">
+        {experience.map((e, i) => (
+          <li key={e.id}>
+            <ScrollFade delay={i * 0.06} className="grid gap-4 py-10 md:grid-cols-12 md:gap-8">
+              <p className="text-sm text-lmuted md:col-span-3">{e.dateRange}</p>
+              <div className="md:col-span-9">
+                <h3 className="text-3xl md:text-4xl">{e.organization}</h3>
+                <p className="mt-1 text-base text-lmuted">{e.title}</p>
+                <p className="mt-4 max-w-2xl text-sm leading-relaxed text-lmuted md:text-base">{e.summary}</p>
+                <div className="mt-5 flex flex-wrap gap-2">
+                  {e.tags.map((t) => (
+                    <Chip key={t} light>
+                      {t}
+                    </Chip>
+                  ))}
+                </div>
+              </div>
+            </ScrollFade>
+          </li>
+        ))}
+      </ol>
+    </Section>
+  );
+}
+
+function Software() {
+  return (
+    <Section id="software" className="bg-bg">
+      <Head title="Software Projects" sub="Simulation, agents and tools I use every day." />
+      <div className="mt-14 grid gap-4 lg:grid-cols-12">
+        <ScrollFade className="flex flex-col border border-line bg-card p-8 md:p-10 lg:col-span-7">
+          <p className="text-sm text-muted">{monteCarlo.kind}</p>
+          <h3 className="mt-3 text-4xl md:text-5xl">{monteCarlo.title}</h3>
+          <p className="mt-5 max-w-xl text-sm leading-relaxed text-muted md:text-base">{monteCarlo.description}</p>
+          <div className="my-8 flex flex-1 flex-col justify-center">
+            <p className="mb-2 text-sm text-muted">Return in each of {mc.nSims} simulated years</p>
+            <LineChart
+              format={pct}
+              referenceLine={{ value: 0, label: "" }}
+              summary={`Return for each of ${mc.nSims} simulated years. Learning run averaged ${pct1(mc.learn.mean)}, control run averaged ${pct1(mc.ctrl.mean)}.`}
+              series={[
+                { label: "Learning", values: mc.learn.returns, color: "#f2b84b" },
+                { label: "Control", values: mc.ctrl.returns, color: "#a9b8e6", dashed: true },
+              ]}
+            />
+            <p className="mt-3 text-sm leading-relaxed text-muted">{monteCarlo.note}</p>
+          </div>
+          <div>
+            <StepWords steps={monteCarlo.steps} />
+          </div>
+          <div className="mt-6 flex flex-wrap gap-2">
+            {monteCarlo.tags.map((t) => (
+              <Chip key={t}>{t}</Chip>
+            ))}
+          </div>
+        </ScrollFade>
+
+        <div className="flex flex-col gap-4 lg:col-span-5">
+          {softwareProjects.map((p, i) => (
+            <ScrollFade key={p.id} delay={i * 0.08} className="flex-1 border border-line bg-card p-7">
+              <p className="text-sm text-muted">{p.kind}</p>
+              <h3 className="mt-2 text-3xl">{p.title}</h3>
+              <p className="mt-3 max-w-prose text-sm leading-relaxed text-muted">{p.description}</p>
+              <div className="mt-5">
+                <StepWords steps={p.steps} />
+              </div>
+              <div className="mt-5 flex flex-wrap gap-2">
+                {p.tags.map((t) => (
+                  <Chip key={t}>{t}</Chip>
+                ))}
+              </div>
+              {p.note && (
+                <p className="mt-4 flex items-center gap-2 text-xs text-muted">
+                  <Lock size={12} aria-hidden /> {p.note}
+                </p>
+              )}
+            </ScrollFade>
+          ))}
+        </div>
+      </div>
+    </Section>
+  );
+}
+
 function Cad() {
   return (
     <Section id="cad" className="bg-lbg text-lfg">
-      <Head light title="Hardware Design" sub="Parts I designed and printed. Drag a model to rotate it." />
+      <Head light title="Hardware Design" sub="Parts I designed in Fusion 360. Drag a model to rotate it." />
       <div className="mt-14 flex flex-col gap-6">
         {cadProjects.map((p, i) => (
           <ScrollFade key={p.id} className="grid border border-lline bg-lcard md:grid-cols-2">
@@ -112,163 +200,32 @@ function Cad() {
   );
 }
 
-function Experience() {
-  return (
-    <Section id="experience" className="bg-bg">
-      <Head title="Experience" sub="Internships, case work and consulting." />
-      <ol className="mt-14 divide-y divide-line border-y border-line">
-        {experience.map((e, i) => (
-          <li key={e.id}>
-            <ScrollFade delay={i * 0.06} className="grid gap-4 py-10 md:grid-cols-12 md:gap-8">
-              <p className="text-sm text-muted md:col-span-3">{e.dateRange}</p>
-              <div className="md:col-span-9">
-                <h3 className="text-3xl md:text-4xl">{e.organization}</h3>
-                <p className="mt-1 text-base text-muted">{e.title}</p>
-                <p className="mt-4 max-w-2xl text-sm leading-relaxed text-muted md:text-base">{e.summary}</p>
-                <div className="mt-5 flex flex-wrap gap-2">
-                  {e.tags.map((t) => (
-                    <Chip key={t}>{t}</Chip>
-                  ))}
-                </div>
-              </div>
-            </ScrollFade>
-          </li>
-        ))}
-      </ol>
-    </Section>
-  );
-}
-
-function Software() {
-  return (
-    <Section id="software" className="bg-lbg text-lfg">
-      <Head light title="Software Projects" sub="Simulation, agents and tools I use every day." />
-      <div className="mt-14 grid gap-4 lg:grid-cols-12">
-        <ScrollFade className="flex flex-col border border-line bg-bg p-8 text-fg md:p-10 lg:col-span-7">
-          <p className="text-sm text-muted">{monteCarlo.kind}</p>
-          <h3 className="mt-3 text-4xl md:text-5xl">{monteCarlo.title}</h3>
-          <p className="mt-5 max-w-xl text-sm leading-relaxed text-muted md:text-base">{monteCarlo.description}</p>
-          <div className="my-8 flex flex-1 flex-col justify-center">
-            <p className="mb-2 text-sm text-muted">Return in each of {mc.nSims} simulated years</p>
-            <LineChart
-              format={pct}
-              referenceLine={{ value: 0, label: "" }}
-              summary={`Return for each of ${mc.nSims} simulated years. Learning run averaged ${pct1(mc.learn.mean)}, control run averaged ${pct1(mc.ctrl.mean)}.`}
-              series={[
-                { label: "Learning", values: mc.learn.returns, color: "#f2b84b" },
-                { label: "Control", values: mc.ctrl.returns, color: "#a9b8e6", dashed: true },
-              ]}
-            />
-          </div>
-          <div>
-            <StepWords steps={monteCarlo.steps} />
-          </div>
-          <div className="mt-6 flex flex-wrap gap-2">
-            {monteCarlo.tags.map((t) => (
-              <Chip key={t}>{t}</Chip>
-            ))}
-          </div>
-        </ScrollFade>
-
-        <div className="flex flex-col gap-4 lg:col-span-5">
-          {softwareProjects.map((p, i) => (
-            <ScrollFade key={p.id} delay={i * 0.08} className="flex-1 border border-lline bg-lcard p-7">
-              <p className="text-sm text-lmuted">{p.kind}</p>
-              <h3 className="mt-2 text-3xl">{p.title}</h3>
-              <p className="mt-3 max-w-prose text-sm leading-relaxed text-lmuted">{p.description}</p>
-              <div className="mt-5">
-                <StepWords light steps={p.steps} />
-              </div>
-              <div className="mt-5 flex flex-wrap gap-2">
-                {p.tags.map((t) => (
-                  <Chip key={t} light>
-                    {t}
-                  </Chip>
-                ))}
-              </div>
-              {p.note && (
-                <p className="mt-4 flex items-center gap-2 text-xs text-lmuted">
-                  <Lock size={12} aria-hidden /> {p.note}
-                </p>
-              )}
-            </ScrollFade>
-          ))}
-        </div>
-      </div>
-    </Section>
-  );
-}
-
-function Simulation() {
-  const learn = mc.learn;
-  const ctrl = mc.ctrl;
-  const cell = (label: string, a: number, b: number) => (
-    <div className="bg-card p-6">
-      <p className="text-sm text-muted">{label}</p>
-      <p className="nums mt-3 font-display text-4xl text-accent">{pct1(a)}</p>
-      <p className="text-xs text-muted">learning run</p>
-      <p className="nums mt-3 font-display text-2xl">{pct1(b)}</p>
-      <p className="text-xs text-muted">control run</p>
-    </div>
-  );
-  return (
-    <Section id="simulation" className="bg-bg">
-      <Head title="Simulation & Analysis" sub={monteCarlo.subtitle} />
-      <ScrollFade className="mt-14 grid gap-px border border-line bg-line lg:grid-cols-12">
-        <div className="bg-card p-6 md:p-8 lg:col-span-7">
-          <h3 className="text-2xl">What the agent learned</h3>
-          <p className="mt-1 text-sm text-muted">Weight on the theme where I planted the edge. It starts at 1.</p>
-          <div className="mt-5">
-            <LineChart
-              format={(n) => n.toFixed(2)}
-              referenceLine={{ value: 1, label: "start" }}
-              summary={`Weight on the planted-edge theme across ${mc.nSims} simulated years, from ${learn.energy_w[0].toFixed(2)} to ${learn.energy_w[learn.energy_w.length - 1].toFixed(2)}.`}
-              series={[{ label: "Weight", values: learn.energy_w, color: "#f2b84b" }]}
-            />
-          </div>
-        </div>
-        <div className="grid grid-cols-2 gap-px lg:col-span-5">
-          {cell("Average year", learn.mean, ctrl.mean)}
-          {cell("Median year", learn.median, ctrl.median)}
-          {cell("Worst tenth of years", learn.p10, ctrl.p10)}
-          <div className="bg-card p-6">
-            <p className="text-sm text-muted">Rule violations</p>
-            <p className="nums mt-3 font-display text-4xl">{mc.violations}</p>
-            <p className="text-xs text-muted">in {mc.nSims * 2} audited years</p>
-          </div>
-        </div>
-      </ScrollFade>
-      <p className="mt-6 max-w-3xl text-sm leading-relaxed text-muted">{monteCarlo.note}</p>
-    </Section>
-  );
-}
-
 function About() {
   const { skills, education } = personalInfo;
   return (
-    <Section id="about" className="bg-lbg text-lfg">
+    <Section id="about" className="bg-bg">
       <div className="grid gap-14 lg:grid-cols-12">
         <ScrollFade className="lg:col-span-7">
           <h2 className="text-4xl md:text-5xl">About</h2>
-          <p className="mt-8 max-w-prose text-base leading-relaxed text-lmuted">{personalInfo.bio}</p>
+          <p className="mt-8 max-w-prose text-base leading-relaxed text-muted">{personalInfo.bio}</p>
           <dl className="mt-10 space-y-6 text-sm">
             <div>
-              <dt className="text-lmuted">Education</dt>
+              <dt className="text-muted">Education</dt>
               <dd className="mt-1">{education.school}</dd>
-              <dd className="text-lmuted">
+              <dd className="text-muted">
                 {education.degree}, {education.expected}, GPA {education.gpa}
               </dd>
             </div>
             <div>
-              <dt className="text-lmuted">Current focus</dt>
+              <dt className="text-muted">Current focus</dt>
               <dd className="mt-1">{personalInfo.currentFocus}</dd>
             </div>
             <div>
-              <dt className="text-lmuted">Organizations</dt>
+              <dt className="text-muted">Organizations</dt>
               <dd className="mt-1">{personalInfo.organizations.join(", ")}</dd>
             </div>
           </dl>
-          <a href={personalInfo.resumeUrl} className="mt-10 inline-block bg-lfg px-6 py-3 text-sm text-lbg hover:opacity-90">
+          <a href={personalInfo.resumeUrl} className="mt-10 inline-block bg-fg px-6 py-3 text-sm text-bg hover:opacity-90">
             Download Resume
           </a>
         </ScrollFade>
@@ -278,9 +235,7 @@ function About() {
               <h3 className="mb-3 text-2xl">{label}</h3>
               <div className="flex flex-wrap gap-2">
                 {items.map((s) => (
-                  <Chip key={s} light>
-                    {s}
-                  </Chip>
+                  <Chip key={s}>{s}</Chip>
                 ))}
               </div>
             </div>
@@ -298,18 +253,18 @@ function Contact() {
     { icon: Github, label: "GitHub", href: personalInfo.githubUrl },
   ];
   return (
-    <Section id="contact" className="bg-bg">
-      <Head title="Contact" sub="Open to internships, projects and hackathon teams." />
+    <Section id="contact" className="bg-lbg text-lfg">
+      <Head light title="Contact" sub="Open to internships, projects and hackathon teams." />
       <ScrollFade>
-        <ul className="mt-10 grid gap-px border border-line bg-line md:grid-cols-3">
+        <ul className="mt-10 grid gap-px border border-lline bg-lline md:grid-cols-3">
           {rows.map(({ icon: Icon, label, href }) => (
-            <li key={label} className="bg-card">
-              <a href={href} className="group flex min-h-[72px] items-center justify-between gap-3 px-6 hover:bg-bg">
+            <li key={label} className="bg-lcard">
+              <a href={href} className="group flex min-h-[72px] items-center justify-between gap-3 px-6 hover:bg-lbg">
                 <span className="flex items-center gap-3 text-sm">
-                  <Icon size={18} aria-hidden className="text-muted" />
+                  <Icon size={18} aria-hidden className="text-lmuted" />
                   {label}
                 </span>
-                <ArrowUpRight size={18} aria-hidden className="text-muted group-hover:text-fg" />
+                <ArrowUpRight size={18} aria-hidden className="text-lmuted group-hover:text-lfg" />
               </a>
             </li>
           ))}
@@ -323,10 +278,9 @@ export default function Home() {
   return (
     <>
       <Hero />
-      <Cad />
       <Experience />
       <Software />
-      <Simulation />
+      <Cad />
       <About />
       <Contact />
     </>

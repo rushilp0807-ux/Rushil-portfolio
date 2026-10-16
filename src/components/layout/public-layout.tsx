@@ -3,10 +3,9 @@ import { Github, Linkedin, Mail, Menu, X } from "lucide-react";
 import { personalInfo } from "@/data/portfolio";
 
 const links = [
-  { label: "CAD", href: "#cad" },
   { label: "Experience", href: "#experience" },
   { label: "Software", href: "#software" },
-  { label: "Simulation", href: "#simulation" },
+  { label: "CAD", href: "#cad" },
   { label: "About", href: "#about" },
   { label: "Contact", href: "#contact" },
 ];
