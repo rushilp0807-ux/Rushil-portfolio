@@ -2,6 +2,9 @@
 // Style rules: no em or en dashes, no "|" or middle-dot separators in visible text.
 // Date ranges read "Feb 2026 to Present". Never claim what was not done.
 
+// Public files are served under the Vite base path (GitHub Pages project site).
+const BASE = import.meta.env.BASE_URL;
+
 export const personalInfo = {
   name: "Rushil Patil",
   tagline: "Mechanical Engineering Student and Builder",
@@ -20,7 +23,7 @@ export const personalInfo = {
     software: ["Python", "Java", "Power Automate", "Power BI", "SAP"],
     business: ["Excel", "PowerPoint", "DCF Valuation", "Financial Modeling"],
   },
-  resumeUrl: "/Patil_Rushil_Resume.pdf",
+  resumeUrl: `${BASE}Patil_Rushil_Resume.pdf`,
   email: "rushilp0807@gmail.com",
   githubUrl: "https://github.com/rushilp0807-ux",
   linkedinUrl: "https://www.linkedin.com/in/rushilpatil",
@@ -46,7 +49,7 @@ export const cadProjects: CadProject[] = [
     description:
       "A 3D-printed holder designed in CAD and exported for printing. This is the first revision of the design.",
     tags: ["CAD", "3D Printing"],
-    glbFileUrl: "/glb/incense-holder.glb",
+    glbFileUrl: `${BASE}glb/incense-holder.glb`,
   },
   {
     id: "enclosure-lid",
@@ -56,7 +59,7 @@ export const cadProjects: CadProject[] = [
     description:
       "A lid for an electronics enclosure built around a battery pack, charging board and heating pad, sized to the real component dimensions.",
     tags: ["SolidWorks", "3D Printing"],
-    glbFileUrl: "/glb/enclosure-lid.glb",
+    glbFileUrl: `${BASE}glb/enclosure-lid.glb`,
   },
   {
     id: "keychain-tool",
@@ -66,7 +69,7 @@ export const cadProjects: CadProject[] = [
     description:
       "A compact keychain tool refined over eight revisions, printed each time to test fit and strength.",
     tags: ["Fusion 360", "3D Printing"],
-    glbFileUrl: "/glb/keychain-tool.glb",
+    glbFileUrl: `${BASE}glb/keychain-tool.glb`,
   },
   {
     id: "engineering-card",
@@ -76,7 +79,7 @@ export const cadProjects: CadProject[] = [
     description:
       "A wallet-sized printed card designed to carry everyday engineering reference features.",
     tags: ["Fusion 360", "3D Printing"],
-    glbFileUrl: "/glb/credit-card.glb",
+    glbFileUrl: `${BASE}glb/credit-card.glb`,
   },
 ];
 
