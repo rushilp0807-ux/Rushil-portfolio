@@ -1,12 +1,11 @@
 import type { ReactNode } from "react";
 import { ArrowUpRight, Github, Linkedin, Lock, Mail } from "lucide-react";
 import ScrollFade from "@/components/ui/scroll-fade";
-import ModelViewerWrapper from "@/components/ui/model-viewer-wrapper";
 import FractalBackground from "@/components/viz/fractal-background";
 import LineChart from "@/components/viz/line-chart";
 import StepWords from "@/components/viz/step-words";
 import mc from "@/data/montecarlo.json";
-import { cadProjects, experience, monteCarlo, personalInfo, softwareProjects } from "@/data/portfolio";
+import { experience, moreProjects, personalInfo, softwareProjects, trading } from "@/data/portfolio";
 
 function Chip({ children, light = false }: { children: string; light?: boolean }) {
   return (
@@ -109,17 +108,49 @@ function Experience() {
   );
 }
 
+function ProjectCard({ p, delay = 0, grow = false }: { p: (typeof softwareProjects)[number]; delay?: number; grow?: boolean }) {
+  return (
+    <ScrollFade delay={delay} className={`${grow ? "flex-1" : ""} border border-line bg-card p-7`}>
+      <p className="text-sm text-muted">{p.kind}</p>
+      <h3 className="mt-2 text-3xl">{p.title}</h3>
+      <p className="mt-3 max-w-prose text-sm leading-relaxed text-muted">{p.description}</p>
+      <div className="mt-5">
+        <StepWords steps={p.steps} />
+      </div>
+      <div className="mt-5 flex flex-wrap gap-2">
+        {p.tags.map((t) => (
+          <Chip key={t}>{t}</Chip>
+        ))}
+      </div>
+      {p.note && (
+        <p className="mt-4 flex items-center gap-2 text-xs text-muted">
+          <Lock size={12} aria-hidden /> {p.note}
+        </p>
+      )}
+    </ScrollFade>
+  );
+}
+
 function Software() {
   return (
     <Section id="software" className="bg-bg">
-      <Head title="Software Projects" sub="Simulation, agents and tools I use every day." />
+      <Head title="Software Projects" sub="Agents, simulations and automation tools I built and use." />
       <div className="mt-14 grid gap-4 lg:grid-cols-12">
         <ScrollFade className="flex flex-col border border-line bg-card p-8 md:p-10 lg:col-span-7">
-          <p className="text-sm text-muted">{monteCarlo.kind}</p>
-          <h3 className="mt-3 text-4xl md:text-5xl">{monteCarlo.title}</h3>
-          <p className="mt-5 max-w-xl text-sm leading-relaxed text-muted md:text-base">{monteCarlo.description}</p>
+          <p className="text-sm text-muted">{trading.kind}</p>
+          <h3 className="mt-3 text-4xl md:text-5xl">{trading.title}</h3>
+          <p className="mt-5 max-w-xl text-sm leading-relaxed text-muted md:text-base">{trading.description}</p>
+          <p className="mt-4 max-w-xl text-sm leading-relaxed text-muted md:text-base">{trading.safety}</p>
+          <dl className="mt-8 grid grid-cols-3 gap-px border border-line bg-line">
+            {trading.stats.map((s) => (
+              <div key={s.label} className="bg-bg p-4">
+                <dd className="nums font-display text-3xl">{s.value}</dd>
+                <dt className="mt-1 text-xs text-muted">{s.label}</dt>
+              </div>
+            ))}
+          </dl>
           <div className="my-8 flex flex-1 flex-col justify-center">
-            <p className="mb-2 text-sm text-muted">Return in each of {mc.nSims} simulated years</p>
+            <p className="mb-2 text-sm text-muted">{trading.chartTitle}</p>
             <LineChart
               format={pct}
               referenceLine={{ value: 0, label: "" }}
@@ -129,13 +160,13 @@ function Software() {
                 { label: "Control", values: mc.ctrl.returns, color: "#a9b8e6", dashed: true },
               ]}
             />
-            <p className="mt-3 text-sm leading-relaxed text-muted">{monteCarlo.note}</p>
+            <p className="mt-3 text-sm leading-relaxed text-muted">{trading.note}</p>
           </div>
           <div>
-            <StepWords steps={monteCarlo.steps} />
+            <StepWords steps={trading.steps} />
           </div>
           <div className="mt-6 flex flex-wrap gap-2">
-            {monteCarlo.tags.map((t) => (
+            {trading.tags.map((t) => (
               <Chip key={t}>{t}</Chip>
             ))}
           </div>
@@ -143,89 +174,44 @@ function Software() {
 
         <div className="flex flex-col gap-4 lg:col-span-5">
           {softwareProjects.map((p, i) => (
-            <ScrollFade key={p.id} delay={i * 0.08} className="flex-1 border border-line bg-card p-7">
-              <p className="text-sm text-muted">{p.kind}</p>
-              <h3 className="mt-2 text-3xl">{p.title}</h3>
-              <p className="mt-3 max-w-prose text-sm leading-relaxed text-muted">{p.description}</p>
-              <div className="mt-5">
-                <StepWords steps={p.steps} />
-              </div>
-              <div className="mt-5 flex flex-wrap gap-2">
-                {p.tags.map((t) => (
-                  <Chip key={t}>{t}</Chip>
-                ))}
-              </div>
-              {p.note && (
-                <p className="mt-4 flex items-center gap-2 text-xs text-muted">
-                  <Lock size={12} aria-hidden /> {p.note}
-                </p>
-              )}
-            </ScrollFade>
+            <ProjectCard key={p.id} p={p} delay={i * 0.08} grow />
           ))}
         </div>
       </div>
-    </Section>
-  );
-}
-
-function Cad() {
-  return (
-    <Section id="cad" className="bg-lbg text-lfg">
-      <Head light title="Hardware Design" sub="Parts I designed in Fusion 360. Drag a model to rotate it." />
-      <div className="mt-14 flex flex-col gap-6">
-        {cadProjects.map((p, i) => (
-          <ScrollFade key={p.id} className="grid border border-lline bg-lcard md:grid-cols-2">
-            <ModelViewerWrapper
-              src={p.glbFileUrl}
-              alt={`3D model of ${p.title}`}
-              className={`h-[340px] md:h-[440px] ${i % 2 ? "md:order-2" : ""}`}
-            />
-            <div className="flex flex-col justify-center p-8 md:p-12">
-              <p className="text-sm text-lmuted">Personal project</p>
-              <p className="text-sm text-lmuted">{p.dateRange}</p>
-              <h3 className="mt-6 text-3xl md:text-4xl">{p.title}</h3>
-              <p className="mt-4 max-w-prose text-sm leading-relaxed text-lmuted md:text-base">{p.description}</p>
-              <div className="mt-6 flex flex-wrap gap-2">
-                {p.tags.map((t) => (
-                  <Chip key={t} light>
-                    {t}
-                  </Chip>
-                ))}
-              </div>
-            </div>
-          </ScrollFade>
+      <div className="mt-4 grid gap-4 md:grid-cols-2">
+        {moreProjects.map((p, i) => (
+          <ProjectCard key={p.id} p={p} delay={(i % 2) * 0.08} />
         ))}
       </div>
     </Section>
   );
 }
-
 function About() {
   const { skills, education } = personalInfo;
   return (
-    <Section id="about" className="bg-bg">
+    <Section id="about" className="bg-lbg text-lfg">
       <div className="grid gap-14 lg:grid-cols-12">
         <ScrollFade className="lg:col-span-7">
           <h2 className="text-4xl md:text-5xl">About</h2>
-          <p className="mt-8 max-w-prose text-base leading-relaxed text-muted">{personalInfo.bio}</p>
+          <p className="mt-8 max-w-prose text-base leading-relaxed text-lmuted">{personalInfo.bio}</p>
           <dl className="mt-10 space-y-6 text-sm">
             <div>
-              <dt className="text-muted">Education</dt>
+              <dt className="text-lmuted">Education</dt>
               <dd className="mt-1">{education.school}</dd>
-              <dd className="text-muted">
+              <dd className="text-lmuted">
                 {education.degree}, {education.expected}, GPA {education.gpa}
               </dd>
             </div>
             <div>
-              <dt className="text-muted">Current focus</dt>
+              <dt className="text-lmuted">Current focus</dt>
               <dd className="mt-1">{personalInfo.currentFocus}</dd>
             </div>
             <div>
-              <dt className="text-muted">Organizations</dt>
+              <dt className="text-lmuted">Organizations</dt>
               <dd className="mt-1">{personalInfo.organizations.join(", ")}</dd>
             </div>
           </dl>
-          <a href={personalInfo.resumeUrl} className="mt-10 inline-block bg-fg px-6 py-3 text-sm text-bg hover:opacity-90">
+          <a href={personalInfo.resumeUrl} className="mt-10 inline-block bg-lfg px-6 py-3 text-sm text-lbg hover:opacity-90">
             Download Resume
           </a>
         </ScrollFade>
@@ -235,7 +221,9 @@ function About() {
               <h3 className="mb-3 text-2xl">{label}</h3>
               <div className="flex flex-wrap gap-2">
                 {items.map((s) => (
-                  <Chip key={s}>{s}</Chip>
+                  <Chip key={s} light>
+                    {s}
+                  </Chip>
                 ))}
               </div>
             </div>
@@ -253,18 +241,18 @@ function Contact() {
     { icon: Github, label: "GitHub", href: personalInfo.githubUrl },
   ];
   return (
-    <Section id="contact" className="bg-lbg text-lfg">
-      <Head light title="Contact" sub="Open to internships, projects and hackathon teams." />
+    <Section id="contact" className="bg-bg">
+      <Head title="Contact" sub="Open to internships, projects and hackathon teams." />
       <ScrollFade>
-        <ul className="mt-10 grid gap-px border border-lline bg-lline md:grid-cols-3">
+        <ul className="mt-10 grid gap-px border border-line bg-line md:grid-cols-3">
           {rows.map(({ icon: Icon, label, href }) => (
-            <li key={label} className="bg-lcard">
-              <a href={href} className="group flex min-h-[72px] items-center justify-between gap-3 px-6 hover:bg-lbg">
+            <li key={label} className="bg-card">
+              <a href={href} className="group flex min-h-[72px] items-center justify-between gap-3 px-6 hover:bg-bg">
                 <span className="flex items-center gap-3 text-sm">
-                  <Icon size={18} aria-hidden className="text-lmuted" />
+                  <Icon size={18} aria-hidden className="text-muted" />
                   {label}
                 </span>
-                <ArrowUpRight size={18} aria-hidden className="text-lmuted group-hover:text-lfg" />
+                <ArrowUpRight size={18} aria-hidden className="text-muted group-hover:text-fg" />
               </a>
             </li>
           ))}
@@ -273,14 +261,12 @@ function Contact() {
     </Section>
   );
 }
-
 export default function Home() {
   return (
     <>
       <Hero />
       <Experience />
       <Software />
-      <Cad />
       <About />
       <Contact />
     </>

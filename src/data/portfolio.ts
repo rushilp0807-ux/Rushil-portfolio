@@ -29,35 +29,6 @@ export const personalInfo = {
   linkedinUrl: "https://www.linkedin.com/in/rushilpatil",
 };
 
-export type CadProject = {
-  id: string;
-  title: string;
-  dateRange: string;
-  description: string;
-  tags: string[];
-  glbFileUrl: string;
-};
-
-// Only the two strongest designs are shown.
-export const cadProjects: CadProject[] = [
-  {
-    id: "enclosure",
-    title: "Layered Electronics Enclosure",
-    dateRange: "December 2025",
-    description:
-      "A stacked enclosure I designed in Fusion 360 around a battery pack, a control board and silicone heating pads. The model has 62 separate parts, and the animation lifts the layers and the electronics apart.",
-    tags: ["Fusion 360", "Assembly Design", "3D Printing"],
-    glbFileUrl: `${BASE}glb/assembly.glb`,
-  },
-  {
-    id: "storcase",
-    title: "Storage Case",
-    dateRange: "2025",
-    description: "A two-drawer storage cabinet I designed in Fusion 360, with 66 separate parts including the rails and hardware. The animation pulls the drawers out.",
-    tags: ["Fusion 360", "Product Design"],
-    glbFileUrl: `${BASE}glb/storcase.glb`,
-  },
-];
 export type SoftwareProject = {
   id: string;
   title: string;
@@ -68,7 +39,26 @@ export type SoftwareProject = {
   note?: string;
 };
 
-// The three smaller cards beside the lead project.
+// The lead card: the agentic trading system and the simulation that tests it.
+export const trading = {
+  kind: "AI agent and simulation",
+  title: "Agentic Trading System",
+  description:
+    "An agent that researches a small real-money account every day, week and month, ranks ideas, watches prices every 30 minutes, and emails me what it finds. It never trades. I place every order myself.",
+  safety:
+    "The hard limits live in code, not in the prompt: five positions at most, no leveraged funds, and a two-week minimum hold. The model proposes and deterministic code decides. A separate auditor checks every simulated run for rule violations.",
+  steps: ["Schedule", "Research", "Validate", "Journal", "Email"],
+  tags: ["Python", "Claude", "SQLite", "Task Scheduler", "Gmail API", "Monte Carlo"],
+  chartTitle: "Monte Carlo test: return in each of 30 simulated years",
+  note: "Before it touches real money, I run it through simulated markets with a known edge planted, one run that keeps what it learns against a control that starts fresh. Dollar levels are synthetic and thirty years is a small sample. The learning run cut the worst years but gave up the biggest winners.",
+  stats: [
+    { value: "295", label: "automated tests" },
+    { value: "19,000+", label: "simulated runs" },
+    { value: "5", label: "scheduled jobs" },
+  ],
+};
+
+// Three stacked cards beside the lead.
 export const softwareProjects: SoftwareProject[] = [
   {
     id: "spare-parts",
@@ -81,6 +71,29 @@ export const softwareProjects: SoftwareProject[] = [
     note: "Built for an employer, not public",
   },
   {
+    id: "po-automation",
+    title: "Purchase Order Automation",
+    kind: "Full-stack app",
+    description:
+      "Reads a purchase order PDF, pulls out the fields with Claude, checks them against the quote, and flags any gap before a person approves it. I built it twice: on Microsoft Power Platform, and as a fully local Next.js app with a database and a hard cap on AI calls.",
+    tags: ["Next.js", "SQLite", "Claude API", "Power Platform"],
+    steps: ["Extract", "Match", "Validate", "Approve"],
+  },
+  {
+    id: "approvals",
+    title: "Approval Workflows",
+    kind: "Internship at NETZSCH",
+    description:
+      "Credit, warranty and free-of-charge requests used to move by email. A form now routes each one to the right approver by dollar amount and sales office, then logs the decision.",
+    tags: ["Power Automate", "Forms", "Approvals", "Excel"],
+    steps: ["Submit", "Route", "Approve", "Log"],
+    note: "Built for an employer, not public",
+  },
+];
+
+// Smaller cards below.
+export const moreProjects: SoftwareProject[] = [
+  {
     id: "ib-voice-quiz",
     title: "IB Voice Quiz",
     kind: "Web app",
@@ -90,25 +103,33 @@ export const softwareProjects: SoftwareProject[] = [
     steps: ["Ask", "Listen", "Transcribe", "Grade"],
   },
   {
-    id: "stock-agent",
-    title: "Stock Research Agent",
-    kind: "AI agent",
+    id: "dayforce-bot",
+    title: "Hours Report Bot",
+    kind: "Windows app for a coworker",
     description:
-      "Researches a small real portfolio every day, week and month, then emails me a summary. A rule check rejects anything outside my limits before I see it.",
-    tags: ["Python", "Scheduling", "Claude"],
-    steps: ["Schedule", "Research", "Check", "Email"],
+      "Refreshes a daily hours spreadsheet from a company report with no clicks. It is a standalone Windows program with a setup screen, a scheduled task, and credentials kept in Windows Credential Manager.",
+    tags: ["Python", "Playwright", "PyInstaller"],
+    steps: ["Sign in", "Download", "Verify", "Swap"],
+  },
+  {
+    id: "service-report",
+    title: "Service Report Generator",
+    kind: "Copilot Studio agent",
+    description:
+      "Turns a technician's form answers into a finished, branded Word report. It polishes the writing but never invents a detail: anything missing becomes a highlighted placeholder.",
+    tags: ["Copilot Studio", "Power Automate", "Word"],
+    steps: ["Form", "Polish", "Flag gaps", "Report"],
+  },
+  {
+    id: "offer-tool",
+    title: "Testing Offer Sender",
+    kind: "Sales tool",
+    description:
+      "Lets a salesperson email a customer the right testing forms in under two minutes. One file, nothing to install, and it falls back to a ready-to-send draft on the new Outlook.",
+    tags: ["HTA", "JScript", "Outlook"],
+    steps: ["Pick files", "Fill template", "Send"],
   },
 ];
-
-export const monteCarlo = {
-  title: "Monte Carlo Trading Simulator",
-  kind: "Simulation",
-  description:
-    "Before the stock agent touches real money, I test it in simulated markets. I plant a known edge, then compare one run that keeps what it learns against a control that starts fresh every year. Every run is audited for rule violations.",
-  tags: ["Python", "Monte Carlo", "Bootstrap"],
-  steps: ["Simulate", "Learn", "Audit", "Compare"],
-  note: "Dollar levels are synthetic and thirty years is a small sample. The learning run cut the worst years but gave up the biggest winners.",
-};
 
 export type Experience = {
   id: string;
