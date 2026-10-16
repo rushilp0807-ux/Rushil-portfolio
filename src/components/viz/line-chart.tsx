@@ -4,16 +4,16 @@ export type Series = { label: string; values: number[]; color: string; dashed?: 
 
 type Props = {
   series: Series[];
-  yLabel: string;
   summary: string; // read aloud by screen readers
   format?: (n: number) => string;
   referenceLine?: { value: number; label: string };
-  dark?: boolean;
 };
 
 const W = 640;
 const H = 240;
 const PAD = { l: 52, r: 96, t: 14, b: 30 };
+const GRID = "#223f9e";
+const TEXT = "#a9b8e6";
 
 function niceTicks(min: number, max: number, count = 4) {
   const span = max - min || 1;
@@ -30,7 +30,8 @@ function niceTicks(min: number, max: number, count = 4) {
   return ticks;
 }
 
-export default function LineChart({ series, yLabel, summary, format = (n) => String(n), referenceLine, dark }: Props) {
+// Drawn for dark royal-blue panels.
+export default function LineChart({ series, summary, format = (n) => String(n), referenceLine }: Props) {
   const id = useId();
   const all = series.flatMap((s) => s.values).concat(referenceLine ? [referenceLine.value] : []);
   const ticks = niceTicks(Math.min(...all), Math.max(...all));
@@ -39,76 +40,65 @@ export default function LineChart({ series, yLabel, summary, format = (n) => Str
   const n = Math.max(...series.map((s) => s.values.length));
   const x = (i: number) => PAD.l + (i / Math.max(1, n - 1)) * (W - PAD.l - PAD.r);
   const y = (v: number) => PAD.t + (1 - (v - yMin) / (yMax - yMin || 1)) * (H - PAD.t - PAD.b);
-  const grid = dark ? "#232c3a" : "#e2e5eb";
-  const text = dark ? "#9aa5b6" : "#5b6472";
   const xTicks = [0, Math.round((n - 1) / 3), Math.round(((n - 1) * 2) / 3), n - 1];
+  const font = "Inter, sans-serif";
 
   return (
     // On phones the chart keeps a readable width and scrolls inside its card.
     <div className="-mx-2 overflow-x-auto px-2" tabIndex={0} role="group" aria-label="Chart, scrollable">
-    <svg viewBox={`0 0 ${W} ${H}`} role="img" aria-labelledby={`${id}-t`} className="h-auto w-full min-w-[540px]">
-      <title id={`${id}-t`}>{summary}</title>
-      {ticks.map((t) => (
-        <g key={t}>
-          <line x1={PAD.l} x2={W - PAD.r} y1={y(t)} y2={y(t)} stroke={grid} strokeWidth={1} />
-          <text x={PAD.l - 8} y={y(t) + 4} textAnchor="end" fontSize={11} fill={text} fontFamily="JetBrains Mono, monospace">
-            {format(t)}
-          </text>
-        </g>
-      ))}
-      {xTicks.map((i) => (
-        <text key={i} x={x(i)} y={H - 8} textAnchor="middle" fontSize={11} fill={text} fontFamily="JetBrains Mono, monospace">
-          {i + 1}
-        </text>
-      ))}
-      <text x={PAD.l} y={H - 8} textAnchor="start" fontSize={0}>
-        {yLabel}
-      </text>
-      {referenceLine && (
-        <g>
-          <line
-            x1={PAD.l}
-            x2={W - PAD.r}
-            y1={y(referenceLine.value)}
-            y2={y(referenceLine.value)}
-            stroke={text}
-            strokeDasharray="4 4"
-            strokeWidth={1}
-          />
-          <text x={W - PAD.r + 6} y={y(referenceLine.value) + 4} fontSize={11} fill={text} fontFamily="JetBrains Mono, monospace">
-            {referenceLine.label}
-          </text>
-        </g>
-      )}
-      {series.map((s) => {
-        const d = s.values.map((v, i) => `${i === 0 ? "M" : "L"}${x(i).toFixed(1)},${y(v).toFixed(1)}`).join(" ");
-        const last = s.values.length - 1;
-        return (
-          <g key={s.label}>
-            <path
-              d={d}
-              fill="none"
-              stroke={s.color}
-              strokeWidth={2.25}
-              strokeLinejoin="round"
-              strokeLinecap="round"
-              strokeDasharray={s.dashed ? "5 4" : undefined}
-            />
-            <circle cx={x(last)} cy={y(s.values[last])} r={4} fill={s.color} />
-            <text
-              x={x(last) + 10}
-              y={y(s.values[last]) + 4}
-              fontSize={12}
-              fontWeight={600}
-              fill={s.color}
-              fontFamily="Archivo, sans-serif"
-            >
-              {s.label}
+      <svg viewBox={`0 0 ${W} ${H}`} role="img" aria-labelledby={`${id}-t`} className="h-auto w-full min-w-[540px]">
+        <title id={`${id}-t`}>{summary}</title>
+        {ticks.map((t) => (
+          <g key={t}>
+            <line x1={PAD.l} x2={W - PAD.r} y1={y(t)} y2={y(t)} stroke={GRID} strokeWidth={1} />
+            <text x={PAD.l - 8} y={y(t) + 4} textAnchor="end" fontSize={11} fill={TEXT} fontFamily={font}>
+              {format(t)}
             </text>
           </g>
-        );
-      })}
-    </svg>
+        ))}
+        {xTicks.map((i) => (
+          <text key={i} x={x(i)} y={H - 8} textAnchor="middle" fontSize={11} fill={TEXT} fontFamily={font}>
+            {i + 1}
+          </text>
+        ))}
+        {referenceLine && (
+          <g>
+            <line
+              x1={PAD.l}
+              x2={W - PAD.r}
+              y1={y(referenceLine.value)}
+              y2={y(referenceLine.value)}
+              stroke={TEXT}
+              strokeDasharray="4 4"
+              strokeWidth={1}
+            />
+            <text x={W - PAD.r + 6} y={y(referenceLine.value) + 4} fontSize={11} fill={TEXT} fontFamily={font}>
+              {referenceLine.label}
+            </text>
+          </g>
+        )}
+        {series.map((s) => {
+          const d = s.values.map((v, i) => `${i === 0 ? "M" : "L"}${x(i).toFixed(1)},${y(v).toFixed(1)}`).join(" ");
+          const last = s.values.length - 1;
+          return (
+            <g key={s.label}>
+              <path
+                d={d}
+                fill="none"
+                stroke={s.color}
+                strokeWidth={2.25}
+                strokeLinejoin="round"
+                strokeLinecap="round"
+                strokeDasharray={s.dashed ? "5 4" : undefined}
+              />
+              <circle cx={x(last)} cy={y(s.values[last])} r={4} fill={s.color} />
+              <text x={x(last) + 10} y={y(s.values[last]) + 4} fontSize={12} fontWeight={600} fill={s.color} fontFamily={font}>
+                {s.label}
+              </text>
+            </g>
+          );
+        })}
+      </svg>
     </div>
   );
 }

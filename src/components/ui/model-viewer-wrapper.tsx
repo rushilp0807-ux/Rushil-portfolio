@@ -29,14 +29,14 @@ export default function ModelViewerWrapper({ src, alt, className = "" }: Props) 
 
   if (!src) {
     return (
-      <div className={`flex items-center justify-center bg-night2 text-sm text-nmuted ${className}`} role="img" aria-label={alt}>
+      <div className={`flex items-center justify-center bg-card text-sm text-muted ${className}`} role="img" aria-label={alt}>
         3D model coming soon
       </div>
     );
   }
 
   return (
-    <div className={`relative bg-night2 ${className}`}>
+    <div className={`relative bg-card ${className}`}>
       <model-viewer
         ref={ref}
         src={src}
@@ -51,13 +51,13 @@ export default function ModelViewerWrapper({ src, alt, className = "" }: Props) 
         style={{ width: "100%", height: "100%", background: "transparent" }}
       />
       {status === "loading" && (
-        <div className="absolute inset-0 flex items-center justify-center font-mono text-xs text-nmuted">Loading model</div>
+        <div className="absolute inset-0 flex items-center justify-center text-xs text-muted">Loading model</div>
       )}
       {status === "error" && (
-        <div className="absolute inset-0 flex items-center justify-center font-mono text-xs text-nmuted">Model failed to load</div>
+        <div className="absolute inset-0 flex items-center justify-center text-xs text-muted">Model failed to load</div>
       )}
       {status === "ready" && (
-        <span className="pointer-events-none absolute bottom-3 left-4 font-mono text-xs text-nmuted">Drag to rotate, scroll to zoom</span>
+        <span className="pointer-events-none absolute bottom-3 left-4 text-xs text-muted">Drag to rotate, scroll to zoom</span>
       )}
     </div>
   );

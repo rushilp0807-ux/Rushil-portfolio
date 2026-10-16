@@ -2,34 +2,36 @@
 @plugin "@tailwindcss/typography";
 @import "tw-animate-css";
 
+/* Deep royal blue system. One dark base, one light neutral, one accent. */
 :root {
-  --bg: #f5f6f8;
-  --surface: #ffffff;
-  --ink: #0a0e14;
-  --muted: #5b6472;
-  --line: #e2e5eb;
-  --accent: #2b50ff;
-  --warm: #ff5b1f;
-  --night: #0a0e14;
-  --night-2: #131923;
-  --night-line: #232c3a;
-  --night-muted: #9aa5b6;
+  --bg: #0b1d5a;
+  --card: #112a78;
+  --border: #223f9e;
+  --fg: #f4f6fc;
+  --muted: #a9b8e6;
+  --light-bg: #e8ecf8;
+  --light-card: #dbe2f4;
+  --light-border: #bcc8e8;
+  --light-fg: #0a1233;
+  --light-muted: #475584;
+  --accent: #f2b84b;
+  --focus: #3d6bff;
 }
 
 @theme inline {
-  --font-sans: "Archivo", system-ui, sans-serif;
-  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  --font-display: "Cormorant Garamond", serif;
+  --font-sans: "Inter", sans-serif;
   --color-bg: var(--bg);
-  --color-surface: var(--surface);
-  --color-ink: var(--ink);
+  --color-card: var(--card);
+  --color-line: var(--border);
+  --color-fg: var(--fg);
   --color-muted: var(--muted);
-  --color-line: var(--line);
+  --color-lbg: var(--light-bg);
+  --color-lcard: var(--light-card);
+  --color-lline: var(--light-border);
+  --color-lfg: var(--light-fg);
+  --color-lmuted: var(--light-muted);
   --color-accent: var(--accent);
-  --color-warm: var(--warm);
-  --color-night: var(--night);
-  --color-night2: var(--night-2);
-  --color-nline: var(--night-line);
-  --color-nmuted: var(--night-muted);
 }
 
 @layer base {
@@ -38,39 +40,27 @@
   }
   body {
     background: var(--bg);
-    color: var(--ink);
+    color: var(--fg);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
-    line-height: 1.6;
   }
-  h1, h2, h3, h4 {
-    font-weight: 700;
-    letter-spacing: -0.02em;
-    line-height: 1.05;
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    font-weight: 400;
   }
   :focus-visible {
-    outline: 3px solid var(--accent);
+    outline: 2px solid var(--focus);
     outline-offset: 2px;
   }
 }
 
-/* Dot-grid backdrop, like graph paper seen from far away */
-.dot-grid {
-  background-image: radial-gradient(var(--line) 1.2px, transparent 1.2px);
-  background-size: 22px 22px;
-}
-
-@keyframes draw {
-  from { stroke-dashoffset: 1; }
-  to { stroke-dashoffset: 0; }
-}
-.draw-path {
-  stroke-dasharray: 1;
-  stroke-dashoffset: 1;
-  animation: draw 2.4s ease-out forwards;
+/* Cormorant defaults to old-style figures, which read badly for data. */
+.nums {
+  font-variant-numeric: lining-nums tabular-nums;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
-  .draw-path { animation: none; stroke-dashoffset: 0; }
+  html {
+    scroll-behavior: auto;
+  }
 }

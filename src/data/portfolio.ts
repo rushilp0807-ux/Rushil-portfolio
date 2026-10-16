@@ -9,6 +9,8 @@ export const personalInfo = {
   name: "Rushil Patil",
   firstName: "Rushil",
   lastName: "Patil",
+  heroLine: "Mechanical Engineering Student and Builder",
+  affiliations: ["UIUC Grainger Engineering", "Business Minor", "Dean's List"],
   tagline: "I replace slow manual steps with tools that work.",
   intro:
     "Mechanical Engineering student at the University of Illinois with a business minor. I build automation tools, AI agents and 3D-printed designs.",
